@@ -1,0 +1,15 @@
+﻿namespace EfCoreBP.ApiService.DTOs;
+
+public record BookDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Isbn { get; set; }
+    public DateTime PublishedDate { get; set; }
+    public int PageCount { get; set; }
+    public decimal Price { get; set; }
+    public string Description { get; set; }
+    public int GenreId { get; set; }
+    public string? Genre { get; set; }
+    public List<AuthorDto> Authors { get; set; } = new();
+}
