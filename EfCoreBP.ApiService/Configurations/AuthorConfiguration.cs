@@ -41,5 +41,8 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
         // Index on last name for faster searches
         builder.HasIndex(a => a.LastName)
             .HasDatabaseName("IX_Authors_LastName");
+
+        builder.Property(e => e.RowVersion)
+            .IsRowVersion();
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using EfCoreBP.ApiService.Models;
+using EfCoreBP.ApiService.Models.Enums;
 
 namespace EfCoreBP.ApiService.Configurations;
 
@@ -35,7 +36,11 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
             
         builder.Property(b => b.PublishedDate)
             .IsRequired();
-            
+
+        builder.Property(b => b.BookStatus)
+            .HasDefaultValue(BookStatus.Unknown)
+            .HasSentinel(BookStatus.Unspecified);
+
         // Foreign key configuration
         builder.HasOne(b => b.Genre)
             .WithMany(g => g.Books)

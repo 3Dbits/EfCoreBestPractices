@@ -10,6 +10,7 @@ public class Author
     public string Email { get; set; } = string.Empty;
     public DateTime DateOfBirth { get; set; }
     public string Biography { get; set; } = string.Empty;
+    public ulong RowVersion { get; set; }
 
     // Navigation properties
     [JsonIgnore]

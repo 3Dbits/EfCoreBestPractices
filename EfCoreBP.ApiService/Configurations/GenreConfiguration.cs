@@ -1,6 +1,6 @@
+using EfCoreBP.ApiService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using EfCoreBP.ApiService.Models;
 
 namespace EfCoreBP.ApiService.Configurations;
 
@@ -14,7 +14,11 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
         
         builder.Property(g => g.Id)
             .ValueGeneratedOnAdd();
-            
+
+        builder.Property(g => g.IsActive)
+            .IsRequired()
+            .HasDefaultValue(true);
+
         builder.Property(g => g.Name)
             .IsRequired()
             .HasMaxLength(100);
@@ -26,5 +30,7 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
         builder.HasIndex(g => g.Name)
             .IsUnique()
             .HasDatabaseName("IX_Genres_Name");
+
+        builder.HasQueryFilter(p => p.IsActive);
     }
 }

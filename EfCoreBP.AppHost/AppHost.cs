@@ -5,6 +5,12 @@ var sql = builder.AddSqlServer("sql")
     .AddDatabase("sqldata");
 
 builder.AddProject<Projects.EfCoreBP_ApiService>("apiservice")
+    .WithUrl("/scalar", "Scalar UI")
+    .WithUrlForEndpoint("https", url =>
+    {
+        url.DisplayText = "Scalar (HTTPS)";
+        url.Url = "/scalar";
+    })
     .WithHttpHealthCheck("/health")
     .WithReference(sql)
     .WaitFor(sql);

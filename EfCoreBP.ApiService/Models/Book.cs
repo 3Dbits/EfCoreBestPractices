@@ -1,3 +1,4 @@
+using EfCoreBP.ApiService.Models.Enums;
 using System.Text.Json.Serialization;
 
 namespace EfCoreBP.ApiService.Models;
@@ -8,6 +9,7 @@ public class Book
     public string Title { get; set; } = string.Empty;
     public string ISBN { get; set; } = string.Empty;
     public DateTime PublishedDate { get; set; }
+    public BookStatus BookStatus { get; set; } = default;
     public int PageCount { get; set; }
     public decimal Price { get; set; }
     public string Description { get; set; } = string.Empty;
