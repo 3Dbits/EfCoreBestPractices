@@ -3,7 +3,6 @@ using EfCoreBP.ApiService.DTOs;
 using EfCoreBP.ApiService.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
 
 namespace EfCoreBP.ApiService.Endpoints;
 
