@@ -17,23 +17,22 @@ public static class BookEndpoints
         group.MapGet("/", async (BookStoreContext db) =>
         {
             return await db.Books
-                .AsNoTracking()
-                .Select(b => new
+                .Select(b => new BookWithDetailsDto
                 {
-                    b.Id,
-                    b.Title,
-                    b.PublishedDate,
-                    b.PageCount,
-                    b.Price,
-                    b.Description,
-                    b.GenreId,
+                    Id = b.Id,
+                    Title = b.Title,
+                    PublishedDate = b.PublishedDate,
+                    PageCount = b.PageCount,
+                    Price = b.Price,
+                    Description = b.Description,
+                    GenreId = b.GenreId,
                     Genre = b.Genre != null ? b.Genre.Name : null,
-                    Authors = b.BookAuthors.Select(ba => new
+                    Authors = b.BookAuthors.Select(ba => new BookAuthorDetailsDto
                     {
                         AuthorId = ba.Author.Id,
                         AuthorName = ba.Author.FirstName + ' ' + ba.Author.LastName,
-                        ba.IsPrimaryAuthor,
-                        ba.ContributionDate
+                        IsPrimaryAuthor = ba.IsPrimaryAuthor,
+                        ContributionDate = ba.ContributionDate
                     })
                 })
                 .ToListAsync();
@@ -41,12 +40,16 @@ public static class BookEndpoints
         .WithName("GetAllBooks")
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<Book>, NotFound>> (int id, BookStoreContext db) =>
+        group.MapGet("/{id}", async Task<Results<Ok<BookDto>, NotFound>> (int id, BookStoreContext db) =>
         {
             return await db.Books.AsNoTracking()
-                .Include(b => b.Genre)
-                .FirstOrDefaultAsync(model => model.Id == id)
-                is Book model
+                .Where(b => b.Id == id)
+                .Select(b => new BookDto
+                {
+                    Title = b.Title
+                })
+                .FirstOrDefaultAsync()
+                is BookDto model
                     ? TypedResults.Ok(model)
                     : TypedResults.NotFound();
         })
