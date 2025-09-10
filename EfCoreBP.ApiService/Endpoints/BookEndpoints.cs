@@ -14,7 +14,7 @@ public static class BookEndpoints
 
         static bool SomeLocalFunction(Book b) => b.Title.Length > 0;
 
-        group.MapGet("/", async (BookStoreContext db) =>
+        group.MapGet("/", async (BookStoreContext db, CancellationToken ct) =>
         {
             return await db.Books
                 .Select(b => new BookWithDetailsDto
@@ -35,14 +35,14 @@ public static class BookEndpoints
                         ContributionDate = ba.ContributionDate
                     })
                 })
-                .ToListAsync();
+                .ToListAsync(ct);
         })
         .WithName("GetAllBooks")
         .WithOpenApi();
 
         group.MapGet("/{id}", async Task<Results<Ok<BookDto>, NotFound>> (int id, BookStoreContext db) =>
         {
-            return await db.Books.AsNoTracking()
+            return await db.Books
                 .Where(b => b.Id == id)
                 .Select(b => new BookDto
                 {
