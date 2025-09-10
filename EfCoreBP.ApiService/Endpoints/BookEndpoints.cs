@@ -35,7 +35,7 @@ public static class BookEndpoints
                         AuthorName = ba.Author.FirstName + ' ' + ba.Author.LastName,
                         ba.IsPrimaryAuthor,
                         ba.ContributionDate
-                    }).ToList()
+                    })
                 })
                 .ToListAsync();
         })
