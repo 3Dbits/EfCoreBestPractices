@@ -40,7 +40,7 @@ public static class BookEndpoints
         .WithName("GetAllBooks")
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<BookDto>, NotFound>> (int id, BookStoreContext db) =>
+        group.MapGet("/{id}", async Task<Results<Ok<BookDto>, NotFound>> (int id, BookStoreContext db, CancellationToken ct) =>
         {
             return await db.Books
                 .Where(b => b.Id == id)
@@ -48,7 +48,7 @@ public static class BookEndpoints
                 {
                     Title = b.Title
                 })
-                .FirstOrDefaultAsync()
+                .FirstOrDefaultAsync(ct)
                 is BookDto model
                     ? TypedResults.Ok(model)
                     : TypedResults.NotFound();
